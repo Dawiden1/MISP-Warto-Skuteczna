@@ -1,1 +1,2 @@
 # MISP-Warto-Skuteczna
+Cokolwiek
