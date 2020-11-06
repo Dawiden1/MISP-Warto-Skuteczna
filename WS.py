@@ -1,6 +1,6 @@
 print ("Projekt - Miernictwo i Systemy Pomiarowe \n Dawid Mądry \n Energetyka EN-2 \n Semestr 3 \n 144973")
 
-
+print ('xd')
 
 import csv
 with open('u_LED_2W.csv') as csvfile:
