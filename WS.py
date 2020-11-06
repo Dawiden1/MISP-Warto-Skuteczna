@@ -1,11 +1,11 @@
 print ("Projekt - Miernictwo i Systemy Pomiarowe \n Dawid Mądry \n Energetyka EN-2 \n Semestr 3 \n 144973")
 
 import csv
-
+import matplotlib.pyplot as plt
 
 # dane
 dane = []
-N = 250 # liczba próbek
+N = 500 # liczba próbek
 T = 3*N # czas trwania pomiaru
 
 
@@ -32,3 +32,6 @@ Usk = (calka/T)**(1/2)
 
 #wyświetlanie
 print(Usk)
+
+plt.plot(dane)
+plt.show()
