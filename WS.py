@@ -1,7 +1,8 @@
 print ("Projekt - Miernictwo i Systemy Pomiarowe")
 
 import csv #biblioteka obsługi plików csv
-import matplotlib.pyplot as plt #biblioteka rysowania wykresów funkcjiddd
+import matplotlib.pyplot as plt #biblioteka rysowania wykresów funkcji
+import numpy as np #biblioteka numpy (szybkie i proste operacje na macierzach)
 
 # dane
 dane = [] #tabela z danymi
@@ -23,6 +24,7 @@ with open('u_swietlowka_12W.csv') as csvfile:
 def menu():
     print("[1] Wartosc Skuteczna Napięcia")
     print("[2] Opcja 2")
+    print("[0] Koniec Programu")
 
 def Wartosc_Skuteczna():
     #obliczanie całki z próbek
@@ -68,7 +70,6 @@ print("Dziękuje za użytkowanie programu. Z wyrazami szacunku \n Dawid Mądry \
 
 
 
-print("Koniec Programu")
 
 
 
