@@ -43,7 +43,7 @@ while odpowiedz not in ("Tak", "Nie", "nie"):
         print("Największa wartość napięcia =", max(dane))
         print("Najmniejsza wartość napięcia =", min(dane))
 
-
+print("Koniec Programu")
 
 
 
