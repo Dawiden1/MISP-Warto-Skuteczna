@@ -10,7 +10,7 @@ def loadData(path):
     with open(path) as csvfile:
         readCSV = csv.reader(csvfile)
         for row in readCSV:
-            data.append(float(row[0]))
+            data.append(float(row[0])) #append zapamiętuje poprzednie dane dodając kolejne 1, 12, 123
     return data
 
 def basicPeriod(data):
@@ -29,9 +29,9 @@ def effectiveValue(data):
         eV += data[i]**2
     return (eV/T)**(1/2)
 
-def plot(data, periods = 3):
-    T = basicPeriod(data)
-    plt.plot(range(0, 3*periods*T, periods), data[:periods*T])
+def plot(data, periods = 4): #ile wyswietlić okresów
+    T = basicPeriod(data) #wywołanie funkcji basicPeriod T-ile próbek 1 okres sygnału
+    plt.plot(range(0, 3*periods*T, 3), data[:periods*T]) #zakres(od 0 do T(ile probek w okresie) * periods(ile okresów wyswietlic * 3(czas pomiedzy probkami), 3 bo próbki co 3sec)
     plt.ylabel("U [V]")
     plt.xlabel("t [s]")
     plt.show()
@@ -50,34 +50,39 @@ def menu():
     print("[3] Wyświetl wykres")
     print("[4] Wyświetl parametry")
     print("[0] Koniec Programu")
-    ch = int(input("Wybierz swoją opcje: "))
-    return ch
+    ch = int(input("Wybierz swoją opcje: ")) #wybór działania przez użytkownika
+    return ch #zapamiętuje zadany prze użytkownika numer
 
 dane = None
-while True:
+while True: #pętla która wykonuje sie w nieskończoność dopóki "break"
     choice = menu()
     if choice == 0:
         print(" \n Dziękuje za użytkowanie programu. Z wyrazami szacunku \n Dawid Mądry \n Energetyka EN-2 \n Semestr 3 \n 144973")
         time.sleep(3)
         break
+
     elif choice == 1:
         print("\nProgram wczytuje dane \n")
         dane = loadData('u_swietlowka_12W.csv')
         print("Dane zostały wczytane \n")
+
     elif choice == 2:
         print("\nProgram wczytuje dane \n")
         dane = loadData('u_LED_2W.csv')
         print("Dane zostały wczytane \n")
+
     elif choice == 3:
         if dane == None:
             print("Nie wczytano pliku. Wybierz [1] lub [2] przed wyświetleniem wykresu")
         else:
             plot(dane)
+
     elif choice == 4:
         if dane == None:
             print("Nie wczytano pliku. Wybierz [1] lub [2] przed wyświetleniem parametrów")
         else:
             printInfo(dane)
+
     else:
         print("Nieprawidłowy numer")
 
