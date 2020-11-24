@@ -37,9 +37,11 @@ def plot(data, periods = 3):
     plt.show()
 
 def printInfo(data):
+    T = basicPeriod(data)*3
     print("Największa wartość napięcia = ", max(data), " [V]")
     print("Najmniejsza wartość napięcia = ", min(data), " [V]")
-    print("Okres podstawowy = ", basicPeriod(data)*3, " [s]")
+    print("Okres podstawowy = ", T, " [s]")
+    print("Częstotliwość = ", 1/T, " [Hz]")
     print("Wartosc skuteczna = ", effectiveValue(data), " [V]")
 
 def menu():
