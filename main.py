@@ -37,7 +37,12 @@ def plot(data, periods = 4): #ile wyswietlić okresów
     plt.show()
 
 def printInfo(data):
-    T = basicPeriod(data)*3
+    T = basicPeriod(data)*0.00009765625
+
+    """
+    Praca nad nowymi parametrami ws
+    
+    """
     print("\nNajwiększa wartość napięcia = ", max(data), " [V]")
     print("Najmniejsza wartość napięcia = ", min(data), " [V]")
     print("Okres podstawowy = ", T, " [s]")
@@ -45,7 +50,7 @@ def printInfo(data):
     print("Wartosc skuteczna = ", effectiveValue(data), " [V] \n")
 
 def menu():
-    print("[1] Wczytaj plik: 'u_swietlowka_12W.csv'")
+    print("\n[1] Wczytaj plik: 'u_swietlowka_12W.csv'")
     print("[2] Wczytaj plik: 'u_LED_2W.csv'")
     print("[3] Wyświetl wykres")
     print("[4] Wyświetl parametry")
