@@ -5,13 +5,22 @@ import matplotlib.pyplot as plt #biblioteka rysowania wykresów funkcji
 import numpy as np #biblioteka numpy (szybkie i proste operacje na macierzach)
 import time
 
-def loadData(path):
+def loadData(path = None):
+    if path == None:
+        path = input("Podaj ścieżkę: ")
     data = []
-    with open(path) as csvfile:
-        readCSV = csv.reader(csvfile)
-        for row in readCSV:
-            data.append(float(row[0])) #append zapamiętuje poprzednie dane dodając kolejne 1, 12, 123
-    return data
+    try:
+        print("\nProgram wczytuje dane \n")
+        with open(path) as csvfile:
+            readCSV = csv.reader(csvfile)
+            for row in readCSV:
+                data.append(float(row[0])) #append zapamiętuje poprzednie dane dodając kolejne 1, 12, 123
+        print("Dane zostały wczytane \n")
+        sampling = int(input("Podaj częstotliwość próbkowania: "))
+        return data, sampling
+    except:
+        print("Nie udało się wczytać pliku. Upewnij się, że plik pod wybraną ścieżką istnieje")
+        return None
 
 def basicPeriod(data):
     zeros = []
@@ -29,15 +38,15 @@ def effectiveValue(data):
         eV += data[i]**2
     return (eV/T)**(1/2)
 
-def plot(data, periods = 4): #ile wyswietlić okresów
+def plot(data, sf, periods = 4): #periods oznacza ile wyswietlić okresów
     T = basicPeriod(data) #wywołanie funkcji basicPeriod T-ile próbek 1 okres sygnału
-    plt.plot(range(0, 3*periods*T, 3), data[:periods*T]) #zakres(od 0 do T(ile probek w okresie) * periods(ile okresów wyswietlic * 3(czas pomiedzy probkami), 3 bo próbki co 3sec)
+    plt.plot(np.arange(0, periods*T/sf, 1/sf), data[:periods*T]) #zakres(od 0 do T(ile probek w okresie) * periods(ile okresów wyswietlic * 3(czas pomiedzy probkami), 3 bo próbki co 3sec)
     plt.ylabel("U [V]")
     plt.xlabel("t [s]")
     plt.show()
 
-def printInfo(data):
-    T = basicPeriod(data)*0.00009765625
+def printInfo(data, sf):
+    T = basicPeriod(data)/sf
 
     """
     Praca nad nowymi parametrami ws
@@ -52,13 +61,15 @@ def printInfo(data):
 def menu():
     print("\n[1] Wczytaj plik: 'u_swietlowka_12W.csv'")
     print("[2] Wczytaj plik: 'u_LED_2W.csv'")
-    print("[3] Wyświetl wykres")
-    print("[4] Wyświetl parametry")
+    print("[3] Wczytaj plik z wybranej ścieżki")
+    print("[4] Wyświetl wykres")
+    print("[5] Wyświetl parametry")
     print("[0] Koniec Programu")
     ch = int(input("Wybierz swoją opcje: ")) #wybór działania przez użytkownika
     return ch #zapamiętuje zadany prze użytkownika numer
 
 dane = None
+sampling_frequency = None
 while True: #pętla która wykonuje sie w nieskończoność dopóki "break"
     choice = menu()
     if choice == 0:
@@ -66,27 +77,21 @@ while True: #pętla która wykonuje sie w nieskończoność dopóki "break"
         time.sleep(3)
         break
 
-    elif choice == 1:
-        print("\nProgram wczytuje dane \n")
-        dane = loadData('u_swietlowka_12W.csv')
-        print("Dane zostały wczytane \n")
-
-    elif choice == 2:
-        print("\nProgram wczytuje dane \n")
-        dane = loadData('u_LED_2W.csv')
-        print("Dane zostały wczytane \n")
-
-    elif choice == 3:
-        if dane == None:
-            print("Nie wczytano pliku. Wybierz [1] lub [2] przed wyświetleniem wykresu")
-        else:
-            plot(dane)
+    elif choice in [1, 2, 3]:
+        X = ['u_swietlowka_12W.csv', 'u_LED_2W.csv', None]
+        dane, sampling_frequency = loadData(X[choice - 1])
 
     elif choice == 4:
         if dane == None:
+            print("Nie wczytano pliku. Wybierz [1] lub [2] przed wyświetleniem wykresu")
+        else:
+            plot(dane, sampling_frequency)
+
+    elif choice == 5:
+        if dane == None:
             print("Nie wczytano pliku. Wybierz [1] lub [2] przed wyświetleniem parametrów")
         else:
-            printInfo(dane)
+            printInfo(dane, sampling_frequency)
 
     else:
         print("Nieprawidłowy numer")
