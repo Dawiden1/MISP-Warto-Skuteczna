@@ -42,8 +42,7 @@ def effectiveValue(data, start, stop):
 
 
 def plot(data, sf, to_show):  # periods oznacza ile wyswietlić okresów
-    plt.plot(np.arange(0, to_show / sf, 1 / sf), data[
-                                                 :to_show])  # zakres(od 0 do T(ile probek w okresie) * periods(ile okresów wyswietlic * 3(czas pomiedzy probkami), 3 bo próbki co 3sec)
+    plt.plot(np.arange(0, to_show / sf, 1 / sf), data[:to_show])  # zakres(od 0 do T(ile probek w okresie) * periods(ile okresów wyswietlic * 3(czas pomiedzy probkami), 3 bo próbki co 3sec)
     plt.ylabel("U [V]")
     plt.xlabel("t [s]")
     plt.show()
@@ -52,10 +51,6 @@ def plot(data, sf, to_show):  # periods oznacza ile wyswietlić okresów
 def printInfo(data, sf):
     T = basicPeriod(data)
 
-    """
-    Praca nad nowymi parametrami ws
-
-    """
     time = float(input("Podaj okno czasowe w sekundach, w którym zostanie obliczona wartość skuteczna: "))
     sample_n = int(sf * time)
     sample_n = min(sample_n, len(data))
@@ -66,11 +61,18 @@ def printInfo(data, sf):
     for x in range(half_periods - 1):
         eV.append(effectiveValue(data, x * T / 2, (x + 2) * T / 2))
 
-    print("\nWartosc skuteczna = ", np.mean(eV), " [V] ")
+    with open("Wartości skuteczne okresów.txt", "w") as output:
+        for row in eV:
+            output.write(str(row) + " [V] \n")
+
+    print("\nŚrednia zagregowana wartosci skutecznej = ", np.mean(eV), " [V] ")
     print("Największa wartość napięcia = ", max(data), " [V]")
     print("Najmniejsza wartość napięcia = ", min(data), " [V]")
     print("Okres podstawowy = ", T / sf, " [s]")
     print("Częstotliwość = ", sf / T, " [Hz]\n")
+
+    print("\nWartości skuteczne poszczególnych okresów zostały eksportowane do pliki .txt w głównym folderze z aplikacją ")
+
     plot(data, sf, sample_n)
 
 
