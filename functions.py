@@ -1,7 +1,7 @@
 import csv  # biblioteka obsługi plików csv
 import matplotlib.pyplot as plt  # biblioteka rysowania wykresów funkcji
 import numpy as np  # biblioteka numpy (szybkie i proste operacje na macierzach)
-import time
+import datetime
 from datetime import datetime, date
 
 def loadData(path=None):
