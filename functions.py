@@ -2,7 +2,7 @@ import csv  # biblioteka obsługi plików csv
 import matplotlib.pyplot as plt  # biblioteka rysowania wykresów funkcji
 import numpy as np  # biblioteka numpy (szybkie i proste operacje na macierzach)
 import time
-
+from datetime import datetime, date
 
 def loadData(path=None):
     if path == None:
@@ -61,7 +61,7 @@ def printInfo(data, sf):
     for x in range(half_periods - 1):
         eV.append(effectiveValue(data, x * T / 2, (x + 2) * T / 2))
 
-    with open("Wartości skuteczne okresów.txt", "w") as output:
+    with open("WS wygenerowane " + datetime.now().strftime("%H_%M_%S") +  " " + date.today().strftime("%d_%m_%Y") + ".txt", "w") as output:
         for row in eV:
             output.write(str(row) + " [V] \n")
 
